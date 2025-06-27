@@ -3,7 +3,7 @@ import json
 from dateutil.parser import parse
 from datetime import timedelta
 
-from rich import print, padding
+from rich import print
 
 
 def get_headers(page):

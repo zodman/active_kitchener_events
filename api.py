@@ -8,7 +8,7 @@ def scrape_data():
     for i in range(1, enums.MAX_PAGE+1):
         entries = _fetch_page(i)
         [answer.append(i) for i in entries]
-    return answer  # filter(is_available, answer)
+    return filter(is_available, answer)
 
 
 def _fetch_page(page):
