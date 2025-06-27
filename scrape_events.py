@@ -1,36 +1,30 @@
-import requests
 import enums
-from utils import get_headers, is_available
+from utils import get_headers, is_available, group_by_date, sort_by_time
 from rich import print
-
-
-def get_data():
-    answer = []
-    for i in range(1, enums.MAX_PAGE):
-        payload = enums.PAYLOAD_BASE
-        payload.update(
-            center_ids=[enums.BREAITHAUPT_CENTER]
-        )
-        headers = get_headers(i)
-        resp = requests.post(enums.URL, json=payload, headers=headers)
-        resp.raise_for_status()
-        data = resp.json()
-        entries = data["body"]["activity_items"]
-        [answer.append(i) for i in entries]
-    return filter(is_available, answer)
+import api
 
 
 def main():
-    data_available = get_data()
+    data_available = api.get_data()
 
-    for i in data_available:
+    data_grouped = group_by_date(data_available)
 
-        if i["ages"] == 'Any':
-            i.update(ages="")
+    for date_str, data_available in data_grouped.items():
+        for idx,  i in enumerate(sorted(data_available, key=sort_by_time)):
+            if i["ages"] == 'Any':
+                i.update(ages="")
+            else:
+                ages_str = "[green]Ages: {} ".format(i["ages"])
+                i.update(ages=ages_str)
 
-        str_format = ("[blue]{name} [white]{openings}/{total_open} "
-                      "[green]{ages} [cyan]{time_range}")
-        print(str_format.format(**i))
+            prefix = '[yellow]{}  '.format(
+                date_str) if idx == 0 else enums.SPACES
+            str_format = (
+                "[cyan]{time_range} "
+                "[bright_blue]{name} "
+                "[white]{openings}/{total_open} "
+                " ")
+            print(prefix + str_format.format(**i))
 
 
 if __name__ == "__main__":

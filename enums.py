@@ -1,18 +1,21 @@
 URL = 'https://anc.ca.apm.activecommunities.com/activekitchener/rest/activities/list?locale=en-US'
 
 BREAITHAUPT_CENTER = 4  # Breithaupt Centre
-MAX_PAGE = 4
-EXTRA_HEADERS = {"order_by": "Date range", "page_number": 1,
-                 "total_records_per_page": 20}
+MAX_PAGE = 2
+EXTRA_HEADERS = {
+    "order_by": "Date range",
+    "page_number": 1,
+    "total_records_per_page": 20
+}
 
+SPACES = '            '
 
 PAYLOAD_BASE = {
     "skills": [],
     "time_after_str": "",
     "days_of_week": None,
     "activity_select_param": 0,
-    "center_ids": [
-    ],
+    "center_ids": [],
     "time_before_str": "",
     "open_spots": None,
     "activity_id": None,
