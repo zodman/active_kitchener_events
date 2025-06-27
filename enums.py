@@ -1,14 +1,17 @@
-URL = 'https://anc.ca.apm.activecommunities.com/activekitchener/rest/activities/list?locale=en-US'
+URL_BASE = 'https://anc.ca.apm.activecommunities.com/activekitchener/rest/activities/'
+
+URL = f'{URL_BASE}list?locale=en-US'
+
 
 BREAITHAUPT_CENTER = 4  # Breithaupt Centre
-MAX_PAGE = 2
+MAX_PAGE = 1
 EXTRA_HEADERS = {
     "order_by": "Date range",
     "page_number": 1,
     "total_records_per_page": 20
 }
 
-SPACES = '            '
+SPACES = ' '
 
 PAYLOAD_BASE = {
     "skills": [],

@@ -1,7 +1,9 @@
-from enums import EXTRA_HEADERS
+from enums import EXTRA_HEADERS, SPACES
 import json
 from dateutil.parser import parse
 from datetime import timedelta
+
+from rich import print, padding
 
 
 def get_headers(page):
@@ -33,12 +35,35 @@ def group_by_date(data):
         else:
             dates.setdefault(date_range_start, [])
             dates[date_range_start].append(i)
-    return dates
+    items = dates.items()
+    return sorted(items, key=lambda x: parse(x[0]).date())
 
 
 def sort_by_time(entry):
     time = entry["time_range"]
+    time = time.replace('Noon',  '12:00 PM')
     start, _ = time.split(" - ")
-    if 'Noon' in start:
-        start = '12:00 PM'
     return parse(f"{entry['date_range_start']} {start}")
+
+
+def display(idx, entry, date_str):
+
+    if 'Ages:' not in entry['ages']:
+        if entry["ages"] == 'Any':
+            entry.update(ages="")
+        else:
+            ages_str = "[green]Ages: {} ".format(entry["ages"].strip())
+            entry.update(ages=ages_str)
+
+    entry['time_range'] = entry['time_range'].replace('Noon', '12:00 PM')
+
+    prefix = SPACES*11
+    if idx == 0:
+        prefix = '[yellow]{: <10} '.format(date_str)
+
+    str_format = [
+        "[cyan]{time_range: >18} ",
+        "[bright_blue]{name} ",
+        "[white]{openings}/{total_open} ",
+        " {ages}"]
+    print(prefix + "".join(str_format).format(**entry))
