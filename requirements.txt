@@ -10,7 +10,19 @@ charset-normalizer==3.4.2
     # via requests
 idna==3.10
     # via requests
+markdown-it-py==3.0.0
+    # via rich
+mdurl==0.1.2
+    # via markdown-it-py
+pygments==2.19.2
+    # via rich
+python-dateutil==2.9.0.post0
+    # via -r requirements.in
 requests==2.32.4
     # via -r requirements.in
+rich==14.0.0
+    # via -r requirements.in
+six==1.17.0
+    # via python-dateutil
 urllib3==2.5.0
     # via requests
